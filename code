@@ -1,0 +1,18 @@
+import socket
+
+HOST = '0.0.0.0'
+PORT = 2222
+
+def run_honeypot():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((HOST, PORT))
+    s.listen(5)
+    print(f"[+] Listening on port {PORT}")
+
+    while True:
+        client, addr = s.accept()
+        print(f"[!] Connection from {addr[0]}:{addr[1]}")
+        client.sendall(b"Access denied.\n")
+        client.close()
+
+run_honeypot()
